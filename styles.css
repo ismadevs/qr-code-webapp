@@ -1,0 +1,413 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Outfit", sans-serif;
+    font-style: normal;
+    background: white;
+    min-height: 100vh;
+}
+
+button {
+    font-family: inherit;
+}
+
+h1 {
+    color: rgb(255, 18, 93);
+    font-size: 1.4em;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    position: fixed;           
+    top: 1.25rem;             
+    left: 2.5rem;             
+    margin-bottom: 0;         
+    z-index: 10;              
+}
+
+.wrapper {
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.container {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 700px;
+    position: relative;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.tab {
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: black;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.tab svg {
+    flex-shrink: 0;
+}
+
+.tab.active {
+    color: rgb(255, 18, 93);
+}
+
+.content {
+    display: none;
+    margin-top: 45px;
+}
+
+.content.active {
+    display: block;
+}
+
+.input-group {
+    margin-bottom: 24px;
+}
+
+label {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: black;
+    margin-bottom: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    outline: none;
+    background: white;
+}
+
+input:focus {
+    border-color: rgb(255, 18, 93);
+    box-shadow: 0 0 0 3px rgba(255, 18, 93, 0.1);
+}
+
+.qr-section {
+    margin-top: 40px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 0;
+}
+
+.qr-label {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: black;
+    margin-bottom: 16px;
+}
+
+#qrcode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+#qrcode svg {
+    border-radius: 10px;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto !important;
+    height: auto !important;
+}
+
+#qrcode canvas {
+    border-radius: 15px;
+    display: block;
+}
+
+.empty-state {
+    color: rgb(196, 196, 196);
+    font-size: 14px;
+    padding: 60px 20px;
+}
+
+.download-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: rgb(255, 18, 93);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    bottom: -70px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.download-btn:hover {
+    background: rgb(230, 15, 85);
+}
+
+.download-btn svg {
+    flex-shrink: 0;
+}
+
+/* Language toggle button */
+.language-btn {
+    position: fixed;
+    left: 2.5rem;
+    bottom: 1.875rem;
+    padding: 0.625rem 1.25rem;
+    background-color: white;
+    border: 0.125rem solid #e0e0e0;
+    border-radius: 1.5rem;
+    font-family: "Outfit", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    letter-spacing: 0.0625rem;
+    z-index: 100;
+}
+
+.language-btn:hover {
+    border-color: rgb(255, 18, 93);
+    background-color: rgba(255, 18, 93, 0.1);
+    transform: translateY(-2px);
+}
+
+.language-btn:active {
+    transform: translateY(0);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    -webkit-text-fill-color: black !important;
+}
+
+/* Tablet adjustments */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.2em;
+        left: 1.5rem;
+        top: 1rem;
+    }
+
+    .wrapper {
+        padding-top: 80px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .container {
+        padding: 30px 25px;
+        max-width: 100%;
+    }
+
+    .tabs {
+        gap: 8px;
+    }
+
+    .tab {
+        font-size: 1.1rem;
+        padding: 8px 10px;
+        gap: 8px;
+    }
+
+    .tab svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    label {
+        font-size: 1.1rem;
+    }
+
+    .qr-label {
+        font-size: 1.3rem;
+    }
+
+    #qrcode {
+        width: 250px;
+        height: 250px;
+    }
+
+    .download-btn {
+        max-width: 250px;
+        bottom: -60px;
+    }
+
+    .language-btn {
+        left: 1.5rem;
+        bottom: 1.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1em;
+        left: 1rem;
+        top: 0.75rem;
+    }
+
+    .wrapper {
+        padding-top: 70px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .container {
+        padding: 25px 20px;
+    }
+
+    .tabs {
+        gap: 4px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .tab {
+        font-size: 0.95rem;
+        padding: 6px 8px;
+        gap: 6px;
+        flex-direction: column;
+        min-width: 70px;
+    }
+
+    .tab span {
+        font-size: 0.85rem;
+    }
+
+    .tab svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .content {
+        margin-top: 30px;
+    }
+
+    label {
+        font-size: 1rem;
+    }
+
+    input {
+        font-size: 14px;
+        padding: 10px 14px;
+    }
+
+    .qr-section {
+        margin-top: 30px;
+    }
+
+    .qr-label {
+        font-size: 1.2rem;
+    }
+
+    #qrcode {
+        width: 220px;
+        height: 220px;
+    }
+    
+    .qr-section {
+        margin-top: 30px;
+        padding-bottom: 20px;  /* Add extra padding at bottom */
+    }
+
+    .download-btn {
+        max-width: 220px;
+        padding: 10px 20px;
+        font-size: 14px;
+        bottom: -55px;
+    }
+
+    .language-btn {
+        left: 1rem;
+        bottom: 1rem;
+        padding: 0.4rem 0.9rem;
+        font-size: 0.85rem;
+        border-width: 0.0625rem;
+    }
+}
+
+/* Very small mobile adjustments */
+@media (max-width: 360px) {
+    .tabs {
+        gap: 2px;
+    }
+
+    .tab {
+        font-size: 0.85rem;
+        padding: 5px 6px;
+        min-width: 65px;
+    }
+
+    .tab span {
+        font-size: 0.75rem;
+    }
+
+    .tab svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    #qrcode {
+        width: 200px;
+        height: 200px;
+    }
+
+    .download-btn {
+        max-width: 200px;
+    }
+}
