@@ -157,76 +157,89 @@ function getCaptions() {
 function downloadQRCode() {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    
+
     canvas.width = 1080;
     canvas.height = 1080;
-    
+
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+
     const qrSize = 700;
     const qrX = (canvas.width - qrSize) / 2;
     const qrY = (canvas.height - qrSize) / 2;
-    
+
     const titleY = qrY / 2;
-    
     ctx.fillStyle = '#000000';
     ctx.font = '700 60px Outfit, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(translations[currentLanguage].downloadTitle, canvas.width / 2, titleY);
-    
+
     const qrSvg = document.querySelector('#qrcode svg');
     if (!qrSvg) return;
-    
+
     const svgData = new XMLSerializer().serializeToString(qrSvg);
     const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
     const url = URL.createObjectURL(svgBlob);
-    
+
     const img = new Image();
     img.onload = function() {
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = qrSize;
-        tempCanvas.height = qrSize;
-        const tempCtx = tempCanvas.getContext('2d');
-        
-        tempCtx.drawImage(img, 0, 0, qrSize, qrSize);
-        
-        const imageData = tempCtx.getImageData(0, 0, qrSize, qrSize);
-        const data = imageData.data;
-        
-        for (let i = 0; i < data.length; i += 4) {
-            if (data[i] < 128 && data[i+1] < 128 && data[i+2] < 128) {
-                data[i] = 255;
-                data[i + 1] = 18;
-                data[i + 2] = 93;
-            }
+      const tempCanvas = document.createElement("canvas");
+      tempCanvas.width = qrSize;
+      tempCanvas.height = qrSize;
+      const tempCtx = tempCanvas.getContext("2d");
+
+      tempCtx.drawImage(img, 0, 0, qrSize, qrSize);
+
+      const imageData = tempCtx.getImageData(0, 0, qrSize, qrSize);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        if (data[i] < 128 && data[i + 1] < 128 && data[i + 2] < 128) {
+          data[i] = 255;
+          data[i + 1] = 18;
+          data[i + 2] = 93;
         }
-        
-        tempCtx.putImageData(imageData, 0, 0);
-        
-        ctx.drawImage(tempCanvas, qrX, qrY, qrSize, qrSize);
-        
-        const spaceBelow = canvas.height - (qrY + qrSize);
-        const captionY = qrY + qrSize + (spaceBelow / 2);
-        
-        const captions = getCaptions();
-        const caption = captions[currentTab];
-        ctx.fillStyle = '#000000';
-        ctx.font = '700 40px Outfit, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(caption, canvas.width / 2, captionY);
-        
-        canvas.toBlob(function(blob) {
-            const link = document.createElement('a');
-            link.download = `qrcode-${currentTab}-${Date.now()}.png`;
-            link.href = URL.createObjectURL(blob);
-            link.click();
-            URL.revokeObjectURL(url);
-        });
+      }
+      tempCtx.putImageData(imageData, 0, 0);
+
+      ctx.drawImage(tempCanvas, qrX, qrY, qrSize, qrSize);
+
+      // Calculate where to put caption and user input
+      const spaceBelow = canvas.height - (qrY + qrSize);
+      const captionY = qrY + qrSize + spaceBelow / 3; // Position for caption
+      const inputY = captionY + 60; // Position for user input (60px below caption)
+
+      const captions = getCaptions();
+      const caption = captions[currentTab];
+      // Get user input
+      const userInput = inputs[currentTab].value.trim();
+
+      // Draw caption
+      ctx.fillStyle = "#000000";
+      ctx.font = "700 40px Outfit, sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(caption, canvas.width / 2, captionY);
+
+      // Draw user input under caption only if not "text"
+      if (currentTab !== "text") {
+        const userInput = inputs[currentTab].value.trim();
+        ctx.fillStyle = "#222222";
+        ctx.font = "400 32px Outfit, sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(userInput, canvas.width / 2, inputY);
+      }
+
+      canvas.toBlob(function (blob) {
+        const link = document.createElement("a");
+        link.download = `qrcode-${currentTab}-${Date.now()}.png`;
+        link.href = URL.createObjectURL(blob);
+        link.click();
+        URL.revokeObjectURL(url);
+      });
     };
-    
+
     img.src = url;
 }
 

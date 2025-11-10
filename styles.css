@@ -232,63 +232,141 @@ input:-webkit-autofill:active {
     -webkit-text-fill-color: black !important;
 }
 
-/* Tablet adjustments */
-@media (max-width: 768px) {
-    .container {
-        margin-top: 15vh;  /* About 15% space from top on tablets */
-        padding: 30px 25px;
-        max-width: 90%;
-    }
+/* Mobile: up to 480px */
+@media (max-width: 480px) {
+  h1 {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    font-size: 1.1rem;
+  }
+  
+  .container {
+    padding: 20px 15px;
+    margin-top: 6vh;
+    max-width: 100%;
+  }
 
-    h1 {
-        font-size: 1.2em;
-        left: 1.5rem;
-        top: 1rem;
-    }
+  .tabs {
+    gap: 6px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
 
-    .language-btn {
-        left: 1.5rem;
-        bottom: 1.5rem;
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-    }
+  .tab {
+    font-size: 1rem;
+    padding: 6px 8px;
+    gap: 6px;
+    flex: 1 1 40%;
+    justify-content: center;
+  }
+
+  .content {
+    margin-top: 30px;
+  }
+
+  label {
+    font-size: 1.1rem;
+  }
+
+  input {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  #qrcode {
+    width: 220px;
+    height: 220px;
+    padding: 8px;
+    border-radius: 12px;
+  }
+
+  .qr-label {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+  }
+
+  .download-btn {
+    max-width: 220px;
+    width: 90%;
+    font-size: 14px;
+    padding: 10px 18px;
+    bottom: -60px;
+  }
+
+  .language-btn {
+    left: 1rem;
+    bottom: 1rem;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
 }
 
-/* Mobile adjustments */
-@media (max-width: 480px) {
-    .container {
-        margin-top: 8vh;   /* About 8% space from top on phones */
-        padding: 25px 20px;
-        max-width: 100%;
-    }
+/* Tablet: 481px up to 900px */
+@media (min-width: 481px) and (max-width: 900px) {
+  h1 {
+    position: fixed;
+    top: 1.2rem;
+    left: 2rem;
+    font-size: 1.3rem;
+  }
 
-    h1 {
-        font-size: 1.2em;
-        left: 1rem;
-        top: 0.75rem;
-    }
+  .container {
+    padding: 25px 30px;
+    margin-top: 5vh;
+    max-width: 600px;
+  }
 
-    .tab {
-        padding: 6px 8px;
-        gap: 6px;
-        flex-direction: column;
-        min-width: 70px;
-    }
+  .tabs {
+    gap: 8px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
 
-    .tab span {
-        font-size: 0.85rem;
-    }
+  .tab {
+    font-size: 1.15rem;
+    padding: 8px 10px;
+    gap: 8px;
+    flex: 1 1 auto;
+  }
 
-    .tab svg {
-        width: 24px;
-        height: 24px;
-    }
+  .content {
+    margin-top: 40px;
+  }
 
-    .language-btn {
-        left: 1rem;
-        bottom: 1rem;
-        padding: 0.4rem 0.9rem;
-        font-size: 0.85rem;
-        border-width: 1px;
-    }
+  label {
+    font-size: 1.2rem;
+  }
+
+  input {
+    font-size: 15px;
+    padding: 12px 14px;
+  }
+
+  #qrcode {
+    width: 260px;
+    height: 260px;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .qr-label {
+    font-size: 1.4rem;
+    margin-bottom: 14px;
+  }
+
+  .download-btn {
+    max-width: 260px;
+    width: 100%;
+    font-size: 15px;
+    padding: 12px 22px;
+    bottom: -65px;
+  }
+
+  .language-btn {
+    left: 2rem;
+    bottom: 1.5rem;
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+  }
 }
