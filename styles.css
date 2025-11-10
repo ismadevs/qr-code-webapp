@@ -234,13 +234,19 @@ input:-webkit-autofill:active {
 
 /* Mobile: up to 480px */
 @media (max-width: 480px) {
+
+    body, html {
+        overflow-y: hidden;
+        height: 100vh;
+    }
+
   h1 {
     position: fixed;
     top: 1rem;
     left: 1rem;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
-  
+
   .container {
     padding: 20px 15px;
     margin-top: 6vh;
@@ -266,7 +272,7 @@ input:-webkit-autofill:active {
   }
 
   label {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   input {
@@ -274,17 +280,45 @@ input:-webkit-autofill:active {
     padding: 10px 12px;
   }
 
-  #qrcode {
-    width: 220px;
-    height: 220px;
-    padding: 8px;
-    border-radius: 12px;
-  }
+  .qr-section {
+    margin-top: 40px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 0;
+}
 
-  .qr-label {
-    font-size: 1.25rem;
-    margin-bottom: 12px;
-  }
+.qr-label {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: black;
+    margin-bottom: 16px;
+}
+
+#qrcode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+#qrcode svg {
+    border-radius: 10px;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto !important;
+    height: auto !important;
+}
+
+#qrcode canvas {
+    border-radius: 15px;
+    display: block;
+}
 
   .download-btn {
     max-width: 220px;
