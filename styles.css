@@ -40,12 +40,11 @@ h1 {
 
 .container {
     background: white;
-    border-radius: 16px;
     padding: 40px;
     width: 100%;
     max-width: 700px;
     position: relative;
-    margin-top: 4vh;            /* <-- pushes container 30% from top */
+    margin-top: 4vh;
 }
 
 .tabs {
@@ -235,54 +234,16 @@ input:-webkit-autofill:active {
 
 /* Tablet adjustments */
 @media (max-width: 768px) {
+    .container {
+        margin-top: 15vh;  /* About 15% space from top on tablets */
+        padding: 30px 25px;
+        max-width: 90%;
+    }
+
     h1 {
         font-size: 1.2em;
         left: 1.5rem;
         top: 1rem;
-    }
-
-    .wrapper {
-        padding-top: 80px;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .container {
-        padding: 30px 25px;
-        max-width: 100%;
-    }
-
-    .tabs {
-        gap: 8px;
-    }
-
-    .tab {
-        font-size: 1.1rem;
-        padding: 8px 10px;
-        gap: 8px;
-    }
-
-    .tab svg {
-        width: 22px;
-        height: 22px;
-    }
-
-    label {
-        font-size: 1.1rem;
-    }
-
-    .qr-label {
-        font-size: 1.3rem;
-    }
-
-    #qrcode {
-        width: 250px;
-        height: 250px;
-    }
-
-    .download-btn {
-        max-width: 250px;
-        bottom: -60px;
     }
 
     .language-btn {
@@ -295,30 +256,19 @@ input:-webkit-autofill:active {
 
 /* Mobile adjustments */
 @media (max-width: 480px) {
+    .container {
+        margin-top: 8vh;   /* About 8% space from top on phones */
+        padding: 25px 20px;
+        max-width: 100%;
+    }
+
     h1 {
-        font-size: 1em;
+        font-size: 1.2em;
         left: 1rem;
         top: 0.75rem;
     }
 
-    .wrapper {
-        padding-top: 70px;
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    .container {
-        padding: 25px 20px;
-    }
-
-    .tabs {
-        gap: 4px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
     .tab {
-        font-size: 0.95rem;
         padding: 6px 8px;
         gap: 6px;
         flex-direction: column;
@@ -330,46 +280,8 @@ input:-webkit-autofill:active {
     }
 
     .tab svg {
-        width: 20px;
-        height: 20px;
-    }
-
-    .content {
-        margin-top: 30px;
-    }
-
-    label {
-        font-size: 1rem;
-    }
-
-    input {
-        font-size: 14px;
-        padding: 10px 14px;
-    }
-
-    .qr-section {
-        margin-top: 30px;
-    }
-
-    .qr-label {
-        font-size: 1.2rem;
-    }
-
-    #qrcode {
-        width: 220px;
-        height: 220px;
-    }
-    
-    .qr-section {
-        margin-top: 30px;
-        padding-bottom: 20px;  /* Add extra padding at bottom */
-    }
-
-    .download-btn {
-        max-width: 220px;
-        padding: 10px 20px;
-        font-size: 14px;
-        bottom: -55px;
+        width: 24px;
+        height: 24px;
     }
 
     .language-btn {
@@ -377,37 +289,6 @@ input:-webkit-autofill:active {
         bottom: 1rem;
         padding: 0.4rem 0.9rem;
         font-size: 0.85rem;
-        border-width: 0.0625rem;
-    }
-}
-
-/* Very small mobile adjustments */
-@media (max-width: 360px) {
-    .tabs {
-        gap: 2px;
-    }
-
-    .tab {
-        font-size: 0.85rem;
-        padding: 5px 6px;
-        min-width: 65px;
-    }
-
-    .tab span {
-        font-size: 0.75rem;
-    }
-
-    .tab svg {
-        width: 18px;
-        height: 18px;
-    }
-
-    #qrcode {
-        width: 200px;
-        height: 200px;
-    }
-
-    .download-btn {
-        max-width: 200px;
+        border-width: 1px;
     }
 }
