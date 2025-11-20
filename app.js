@@ -1,114 +1,113 @@
+/* ------------------------------------------
+   DYNAMIC TAB TEXT & PLACEHOLDERS
+------------------------------------------- */
+
+// Text under tabs
+const tabDescriptions = {
+    url: "Enter a link and I'll turn it into a QR code that opens your website instantly",
+    text: "Write any message and I'll generate a QR code that reveals your text",
+    phone: "Type a phone number and the QR code will let people call it right away",
+    email: "Provide an email address and I'll create a QR code to send an email to it"
+};
+
+// Textarea placeholder
+const tabPlaceholders = {
+    url: "https://example.com",
+    text: "Write your message here...",
+    phone: "3332222456",
+    email: "name@example.com"
+};
+
+// Captions for download
+const captions = {
+    url: "🔗  Visit this website",
+    text: "💬 Read this message",
+    phone: "☎️  Call this number",
+    email: "✉️  Send an email"
+};
+
+// DOM elements
+const tabs = document.querySelectorAll(".tab");
+const description = document.querySelector(".tab-description");
+const textarea = document.querySelector(".input-field");
+const qrContainer = document.querySelector(".qrcode-section");
+const actionsContainer = document.querySelector(".qrcode-actions-section");
+
+// Default state
+let currentTabType = "url";
 let qrcode = null;
-let currentTab = 'url';
-let currentLanguage = 'en';
 
-// Translation data
-const translations = {
-    en: {
-        title: "QR Code WebApp by Isma",
-        description: "Generate scannable QR codes in seconds.",
-        url: "URL",
-        text: "Text",
-        phone: "Phone",
-        email: "Email",
-        urlLabel: "Enter URL",
-        urlPlaceholder: "https://example.com",
-        textLabel: "Enter Text",
-        textPlaceholder: "Hello world!",
-        phoneLabel: "Enter Phone Number",
-        phonePlaceholder: "+15551234567",
-        emailLabel: "Enter Email Address",
-        emailPlaceholder: "info@example.com",
-        qrLabel: "QR Code",
-        emptyState: "Enter content above to generate QR code",
-        downloadBtn: "Download",
-        downloadTitle: "QR Code WebApp by Isma",
-        captionUrl: "🔗  Visit this website",
-        captionText: "💬 Read this message",
-        captionPhone: "☎️  Call this number",
-        captionEmail: "✉️  Send an email"
-    },
-    it: {
-        title: "QR Code WebApp by Isma",
-        description: "Genera codici QR scansionabili in secondi.",
-        url: "URL",
-        text: "Testo",
-        phone: "Telefono",
-        email: "Email",
-        urlLabel: "Inserisci URL",
-        urlPlaceholder: "https://esempio.it",
-        textLabel: "Inserisci Testo",
-        textPlaceholder: "Ciao mondo!",
-        phoneLabel: "Inserisci Numero di Telefono",
-        phonePlaceholder: "+393331234567",
-        emailLabel: "Inserisci Indirizzo Email",
-        emailPlaceholder: "info@esempio.it",
-        qrLabel: "Codice QR",
-        emptyState: "Inserisci il contenuto sopra per generare il codice QR",
-        downloadBtn: "Scarica",
-        downloadTitle: "QR Code WebApp di Isma",
-        captionUrl: "🔗  Visita questo sito web",
-        captionText: "💬 Leggi questo messaggio",
-        captionPhone: "☎️  Chiama questo numero",
-        captionEmail: "✉️  Invia un'email"
-    }
-};
+// Apply default text on load
+description.textContent = tabDescriptions.url;
+textarea.placeholder = tabPlaceholders.url;
 
-const tabs = document.querySelectorAll('.tab');
-const contents = document.querySelectorAll('.content');
-const inputs = {
-    url: document.getElementById('url-input'),
-    text: document.getElementById('text-input'),
-    phone: document.getElementById('phone-input'),
-    email: document.getElementById('email-input')
-};
+/* ------------------------------------------
+   TAB CLICK LOGIC
+------------------------------------------- */
 
 tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        const tabName = tab.dataset.tab;
+    tab.addEventListener("click", () => {
+        // Switch active tab
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+
+        const type = tab.getAttribute("data-type");
+        currentTabType = type;
+
+        // Update description and placeholder
+        description.textContent = tabDescriptions[type];
+        textarea.placeholder = tabPlaceholders[type];
+
+        // Clear textarea
+        textarea.value = '';
+
+        // Clear QR code and actions
+        qrContainer.innerHTML = '';
+        actionsContainer.innerHTML = '';
+
         
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        
-        contents.forEach(c => c.classList.remove('active'));
-        document.getElementById(`${tabName}-content`).classList.add('active');
-        
-        currentTab = tabName;
-        generateQR();
+        // Reset QR code instance
+        qrcode = null;
     });
 });
 
-Object.values(inputs).forEach(input => {
-    input.addEventListener('input', generateQR);
-});
+
+// Listen to textarea input
+textarea.addEventListener('input', generateQR);
+
+/* ------------------------------------------
+   QR CODE GENERATION
+------------------------------------------- */
 
 function generateQR() {
-    const input = inputs[currentTab];
-    const value = input.value.trim();
-    const qrcodeDiv = document.getElementById('qrcode');
-    const t = translations[currentLanguage];
-
-    qrcodeDiv.innerHTML = '';
+    const value = textarea.value.trim();
+    
+    // Clear previous QR code
+    qrContainer.innerHTML = '';
+    actionsContainer.innerHTML = '';
 
     if (!value) {
-        qrcodeDiv.innerHTML = `<div class="empty-state">${t.emptyState}</div>`;
-        downloadBtn.style.display = 'none';
         qrcode = null;
         return;
     }
 
     let qrContent = value;
 
-    if (currentTab === 'phone') {
+    // Format content based on tab type
+    if (currentTabType === 'phone') {
         qrContent = `tel:${value}`;
-    } else if (currentTab === 'email') {
+    } else if (currentTabType === 'email') {
         qrContent = `mailto:${value}`;
+    } else if (currentTabType === 'text') {
+        qrContent = value;
     }
 
-    // Calculate QR size based on container size
-    const containerWidth = qrcodeDiv.offsetWidth;
-    const qrSize = Math.min(240, containerWidth - 40); // 40px for padding
+    // Calculate QR size based on container
+    const containerWidth = qrContainer.offsetWidth;
+    const containerHeight = qrContainer.offsetHeight;
+    const qrSize = Math.min(containerWidth, containerHeight) - 40;
 
+    // Create QR code
     qrcode = new QRCodeStyling({
         width: qrSize,
         height: qrSize,
@@ -135,24 +134,59 @@ function generateQR() {
         }
     });
 
-    qrcode.append(qrcodeDiv);
-    downloadBtn.style.display = 'flex';
+    qrcode.append(qrContainer);
+    
+    // Add caption and download button
+    createActions();
 }
 
-const downloadBtn = document.getElementById('download-btn');
+/* ------------------------------------------
+   ACTIONS SECTION (CAPTION + DOWNLOAD)
+------------------------------------------- */
 
-downloadBtn.addEventListener('click', downloadQRCode);
+function createActions() {
+    const caption = captions[currentTabType];
+    
+    actionsContainer.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 100%; padding: 20px; gap: 25px;">
+            <p style="font-size: 1.1rem; font-weight: 600; text-align: center; margin: 0px;">${caption}</p>
+            <button id="download-btn" style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 35px;
+                background-color: rgb(255, 18, 93);
+                color: white;
+                border: none;
+                border-radius: 10px;
+                font-size: 1rem;
+                font-weight: 600;
+                font-family: Outfit;
+                cursor: pointer;
+                transition: 0.2s ease;
+                margin-top: 3px;
+            ">
+                Download
+            </button>
+        </div>
+    `;
 
-// Get current language captions
-function getCaptions() {
-    const t = translations[currentLanguage];
-    return {
-        url: t.captionUrl,
-        text: t.captionText,
-        phone: t.captionPhone,
-        email: t.captionEmail
-    };
+    const downloadBtn = document.getElementById('download-btn');
+    downloadBtn.addEventListener('mouseenter', () => {
+        downloadBtn.style.backgroundColor = 'rgb(230, 16, 84)';
+        downloadBtn.style.transform = 'scale(1.05)';
+    });
+    downloadBtn.addEventListener('mouseleave', () => {
+        downloadBtn.style.backgroundColor = 'rgb(255, 18, 93)';
+        downloadBtn.style.transform = 'scale(1)';
+    });
+    
+    downloadBtn.addEventListener('click', downloadQRCode);
 }
+
+/* ------------------------------------------
+   DOWNLOAD QR CODE WITH TITLE AND CAPTION
+------------------------------------------- */
 
 function downloadQRCode() {
     const canvas = document.createElement('canvas');
@@ -161,6 +195,7 @@ function downloadQRCode() {
     canvas.width = 1080;
     canvas.height = 1080;
     
+    // White background
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
@@ -168,15 +203,16 @@ function downloadQRCode() {
     const qrX = (canvas.width - qrSize) / 2;
     const qrY = (canvas.height - qrSize) / 2;
     
+    // Title at top
     const titleY = qrY / 2;
-    
     ctx.fillStyle = '#000000';
     ctx.font = '700 60px Outfit, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(translations[currentLanguage].downloadTitle, canvas.width / 2, titleY);
+    ctx.fillText('QR Code WebApp by Isma', canvas.width / 2, titleY);
     
-    const qrSvg = document.querySelector('#qrcode svg');
+    // Get QR SVG
+    const qrSvg = qrContainer.querySelector('svg');
     if (!qrSvg) return;
     
     const svgData = new XMLSerializer().serializeToString(qrSvg);
@@ -192,6 +228,7 @@ function downloadQRCode() {
         
         tempCtx.drawImage(img, 0, 0, qrSize, qrSize);
         
+        // Ensure QR code colors are correct (RGB(255, 18, 93))
         const imageData = tempCtx.getImageData(0, 0, qrSize, qrSize);
         const data = imageData.data;
         
@@ -204,23 +241,23 @@ function downloadQRCode() {
         }
         
         tempCtx.putImageData(imageData, 0, 0);
-        
         ctx.drawImage(tempCanvas, qrX, qrY, qrSize, qrSize);
         
+        // Caption at bottom
         const spaceBelow = canvas.height - (qrY + qrSize);
         const captionY = qrY + qrSize + (spaceBelow / 2);
         
-        const captions = getCaptions();
-        const caption = captions[currentTab];
+        const caption = captions[currentTabType];
         ctx.fillStyle = '#000000';
         ctx.font = '700 40px Outfit, sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(caption, canvas.width / 2, captionY);
         
+        // Download
         canvas.toBlob(function(blob) {
             const link = document.createElement('a');
-            link.download = `qrcode-${currentTab}-${Date.now()}.png`;
+            link.download = `qrcode-${currentTabType}-${Date.now()}.png`;
             link.href = URL.createObjectURL(blob);
             link.click();
             URL.revokeObjectURL(url);
@@ -230,66 +267,7 @@ function downloadQRCode() {
     img.src = url;
 }
 
-// Language toggle functionality
-const languageBtn = document.getElementById('language-toggle');
-
-languageBtn.addEventListener('click', () => {
-    currentLanguage = currentLanguage === 'en' ? 'it' : 'en';
-    updateLanguage();
+// Initialize on load
+window.addEventListener('load', () => {
+    generateQR();
 });
-
-function updateLanguage() {
-    const t = translations[currentLanguage];
-    
-    // Update language button
-    languageBtn.innerHTML = currentLanguage === 'en' ? '🇮🇹 ITA' : '🇺🇸 ENG';
-    
-    // Update title
-    document.querySelector('h1').textContent = t.title;
-    
-    // Update description (if you added it)
-    const description = document.querySelector('.description');
-    if (description) {
-        description.textContent = t.description;
-    }
-    
-    // Update tabs
-    document.querySelector('[data-tab="url"] span').textContent = t.url;
-    document.querySelector('[data-tab="text"] span').textContent = t.text;
-    document.querySelector('[data-tab="phone"] span').textContent = t.phone;
-    document.querySelector('[data-tab="email"] span').textContent = t.email;
-    
-    // Update labels and placeholders
-    document.querySelector('label[for="url-input"]').textContent = t.urlLabel;
-    document.getElementById('url-input').placeholder = t.urlPlaceholder;
-    
-    document.querySelector('label[for="text-input"]').textContent = t.textLabel;
-    document.getElementById('text-input').placeholder = t.textPlaceholder;
-    
-    document.querySelector('label[for="phone-input"]').textContent = t.phoneLabel;
-    document.getElementById('phone-input').placeholder = t.phonePlaceholder;
-    
-    document.querySelector('label[for="email-input"]').textContent = t.emailLabel;
-    document.getElementById('email-input').placeholder = t.emailPlaceholder;
-    
-    // Update QR section
-    document.querySelector('.qr-label').textContent = t.qrLabel;
-    
-    // Update empty state if visible
-    const emptyState = document.querySelector('.empty-state');
-    if (emptyState) {
-        emptyState.textContent = t.emptyState;
-    }
-    
-    // Update download button
-    const downloadBtnText = document.querySelector('#download-btn');
-    if (downloadBtnText) {
-        downloadBtnText.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none">
-                <path d="M12 14.5L12 4.5M12 14.5C11.2998 14.5 9.99153 12.5057 9.5 12M12 14.5C12.7002 14.5 14.0085 12.5057 14.5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M20 16.5C20 18.982 19.482 19.5 17 19.5H7C4.518 19.5 4 18.982 4 16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            ${t.downloadBtn}
-        `;
-    }
-}

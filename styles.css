@@ -1,294 +1,281 @@
 * {
+    box-sizing: border-box; 
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
-    font-family: "Outfit", sans-serif;
-    font-style: normal;
-    background: white;
-    min-height: 100vh;
-}
-
-button {
-    font-family: inherit;
-}
-
-h1 {
-    color: rgb(255, 18, 93);
-    font-size: 1.4em;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    position: fixed;           
-    top: 1.25rem;             
-    left: 2.5rem;             
-    margin-bottom: 0;         
-    z-index: 10;              
-}
-
-.wrapper {
-    min-height: 100vh;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    position: relative;
+    background-color: white;
+    line-height: 1.6; 
+    font-family: Outfit;
+    font-weight: 500; 
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.container {
-    background: white;
-    padding: 40px;
-    width: 100%;
-    max-width: 700px;
-    position: relative;
-    margin-top: 4vh;
+.app-container {
+    background-color: white;
+    margin: 10px;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    position: fixed;       /* Keeps it anchored */
+    top: 0;                /* Sticks to the top */
+    left: 0;
+    width: 100%;           /* Full-width */
+    background-color: white;
+    padding: 15px 20px;
+    z-index: 1000;         /* Ensures it stays above content */
+}
+
+.website-title {
+  font-size: 1.3rem;
+  color: rgb(255, 18, 93);
+  font-weight: bold;
+  align-self: flex-start;
+  padding-left: 10px;
+}
+
+.content-container {
+    background-color: white;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 200px 200px 200px 300px;
+    grid-template-rows: 150px 150px 150px;
+    grid-template-areas:
+    "tab-section tab-section tab-section qrcode-section"
+    "input-section input-section input-section qrcode-section"
+    "input-section input-section input-section qrcode-actions-section"
+
+}
+
+.tab-section {
+    background-color: white;
 }
 
 .tabs {
     display: flex;
     justify-content: space-around;
-    gap: 10px;
-    margin-bottom: 32px;
+    align-items: center;
+    padding: 20px;
 }
 
+/* TAB LAYOUT: icon left, text right */
 .tab {
-    background: none;
-    border: none;
-    padding: 8px 12px;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: black;
-    cursor: pointer;
-    transition: color 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 11px;
+    gap: 10px;
+    cursor: pointer;
 }
 
-.tab svg {
-    flex-shrink: 0;
+.tab span {
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
 .tab.active {
     color: rgb(255, 18, 93);
 }
 
-.content {
-    display: none;
-    margin-top: 45px;
-}
-
-.content.active {
-    display: block;
-}
-
-.input-group {
-    margin-bottom: 24px;
-}
-
-label {
-    display: block;
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: black;
-    margin-bottom: 10px;
-}
-
-input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    font-size: 15px;
-    transition: all 0.3s ease;
-    outline: none;
-    background: white;
-}
-
-input:focus {
-    border-color: rgb(255, 18, 93);
-    box-shadow: 0 0 0 3px rgba(255, 18, 93, 0.1);
-}
-
-.qr-section {
-    margin-top: 40px;
-    text-align: center;
-    position: relative;
-    padding-bottom: 0;
-}
-
-.qr-label {
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: black;
-    margin-bottom: 16px;
-}
-
-#qrcode {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 280px;
-    height: 280px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 15px;
-    padding: 10px;
-    overflow: hidden;
-}
-
-#qrcode svg {
-    border-radius: 10px;
-    max-width: 100%;
-    max-height: 100%;
-    width: auto !important;
-    height: auto !important;
-}
-
-#qrcode canvas {
-    border-radius: 15px;
-    display: block;
-}
-
-.empty-state {
-    color: rgb(196, 196, 196);
-    font-size: 14px;
-    padding: 60px 20px;
-}
-
-.download-btn {
-    margin-top: 20px;
-    padding: 12px 24px;
-    background: rgb(255, 18, 93);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 500;
-    font-family: inherit;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: center;
-    transition: all 0.3s ease;
-    width: 100%;
-    max-width: 280px;
-    margin-left: auto;
-    margin-right: auto;
-    position: absolute;
-    bottom: -70px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.download-btn:hover {
-    background: rgb(230, 15, 85);
-}
-
-.download-btn svg {
-    flex-shrink: 0;
-}
-
-/* Language toggle button */
-.language-btn {
-    position: fixed;
-    left: 2.5rem;
-    bottom: 1.875rem;
-    padding: 0.625rem 1.25rem;
-    background-color: white;
-    border: 0.125rem solid #e0e0e0;
-    border-radius: 1.5rem;
-    font-family: "Outfit", sans-serif;
-    font-weight: 700;
+.tab-description {
     font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    margin-top: 35px;
+    text-align: center;
+    font-weight: 500;
+    width: 100%;
+}
+
+.input-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-field {
+    width: 90%;
+    height: 90%;
+    padding: 18px;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    background: white;
+    font-size: 1.1rem;
+    font-family: Outfit;
+    resize: none;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.qrcode-section {
+    background-color: white;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    letter-spacing: 0.0625rem;
-    z-index: 100;
+    justify-content: center;
+    padding: 20px;
 }
 
-.language-btn:hover {
-    border-color: rgb(255, 18, 93);
-    background-color: rgba(255, 18, 93, 0.1);
-    transform: translateY(-2px);
+/* ========================================
+   MEDIA QUERIES - RESPONSIVE DESIGN
+======================================== */
+
+/* Tablets and smaller (max-width: 1024px) */
+@media (max-width: 1024px) {
+    .content-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+        "tab-section"
+        "input-section"
+        "qrcode-section"
+        "qrcode-actions-section";
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .tab-description {
+        margin-top: 20px;
+        font-size: 0.95rem;
+    }
+
+    .qrcode-section {
+        min-height: 300px;
+    }
 }
 
-.language-btn:active {
-    transform: translateY(0);
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-    -webkit-text-fill-color: black !important;
-}
-
-/* Tablet adjustments */
+/* Mobile landscape and tablets portrait (max-width: 768px) */
 @media (max-width: 768px) {
-    .container {
-        margin-top: 15vh;  /* About 15% space from top on tablets */
-        padding: 30px 25px;
-        max-width: 90%;
+    .header {
+        padding: 12px 15px;
     }
 
-    h1 {
-        font-size: 1.2em;
-        left: 1.5rem;
-        top: 1rem;
+    .website-title {
+        font-size: 1.1rem;
+        padding-left: 5px;
     }
 
-    .language-btn {
-        left: 1.5rem;
-        bottom: 1.5rem;
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-    }
-}
-
-/* Mobile adjustments */
-@media (max-width: 480px) {
-    .container {
-        margin-top: 8vh;   /* About 8% space from top on phones */
-        padding: 25px 20px;
-        max-width: 100%;
+    .app-container {
+        margin: 5px;
     }
 
-    h1 {
-        font-size: 1.2em;
-        left: 1rem;
-        top: 0.75rem;
+    .content-container {
+        gap: 10px;
+        padding: 5px;
+    }
+
+    .tabs {
+        flex-wrap: wrap;
+        padding: 15px 10px;
+        gap: 15px;
     }
 
     .tab {
-        padding: 6px 8px;
-        gap: 6px;
-        flex-direction: column;
-        min-width: 70px;
+        gap: 8px;
     }
 
     .tab span {
-        font-size: 0.85rem;
+        font-size: 1rem;
     }
 
     .tab svg {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
     }
 
-    .language-btn {
-        left: 1rem;
-        bottom: 1rem;
-        padding: 0.4rem 0.9rem;
+    .tab-description {
+        font-size: 0.9rem;
+        margin-top: 15px;
+        padding: 0 10px;
+    }
+
+    .input-field {
+        font-size: 1rem;
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .qrcode-section {
+        min-height: 280px;
+        padding: 15px;
+    }
+}
+
+/* Mobile portrait (max-width: 480px) */
+@media (max-width: 480px) {
+    body {
+        overflow-y: auto;
+    }
+
+    .app-container {
+        height: auto;
+        min-height: 100vh;
+        align-items: flex-start;
+        padding-top: 60px;
+    }
+
+    .header {
+        padding: 10px;
+    }
+
+    .website-title {
+        font-size: 1rem;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    .content-container {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .tab {
+        justify-content: center;
+        padding: 8px;
+    }
+
+    .tab span {
+        font-size: 0.9rem;
+    }
+
+    .tab svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .tab-description {
         font-size: 0.85rem;
-        border-width: 1px;
+        margin-top: 10px;
+        padding: 0 5px;
+        line-height: 1.4;
+    }
+
+    .input-section {
+        min-height: 200px;
+    }
+
+    .input-field {
+        font-size: 0.95rem;
+        padding: 12px;
+        border-radius: 10px;
+        width: 95%;
+        height: 95%;
+    }
+
+    .qrcode-section {
+        min-height: 250px;
+        padding: 10px;
     }
 }
